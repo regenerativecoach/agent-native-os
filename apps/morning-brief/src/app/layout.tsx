@@ -3,62 +3,33 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Morning Brief",
-  description: "Your agent-native morning brief. Built at AI Build Lab.",
+  description: "Dan's daily field manual.",
 };
+
+function formatHeaderDate(): string {
+  const d = new Date();
+  const day = d.toLocaleDateString("en-GB", { weekday: "long" });
+  const date = d.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+  return `${day} · ${date}`;
+}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" data-theme="light">
+    <html lang="en">
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600;700&display=swap"
           rel="stylesheet"
         />
       </head>
       <body>
-        <header
-          style={{
-            borderBottom: "2px solid var(--border)",
-            background: "rgba(245,242,235,.93)",
-            padding: "0.72rem 0",
-          }}
-        >
-          <div
-            style={{
-              maxWidth: 1220,
-              margin: "0 auto",
-              padding: "0 1.35rem",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: "1rem",
-            }}
-          >
-            <a className="brand-logo" href="/" aria-label="AI Build Lab home">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/assets/aibuildlab-logo.svg" alt="AI Build Lab" />
-            </a>
-            <span className="kicker">
-              <span className="live-dot" />
-              MORNING BRIEF / capstone build
-            </span>
-          </div>
+        <header className="brief-header">
+          <span className="brief-header-date">{formatHeaderDate()}</span>
+          <span className="brief-wordmark">Morning Brief</span>
         </header>
-        <main style={{ maxWidth: 1220, margin: "0 auto", padding: "2.4rem 1.35rem 4rem" }}>{children}</main>
-        <footer
-          style={{
-            background: "#000",
-            color: "#E8EAED",
-            borderTop: "3px solid var(--border)",
-            padding: "2rem 1.35rem",
-            textAlign: "center",
-            fontFamily: "JetBrains Mono, monospace",
-            fontSize: ".72rem",
-            lineHeight: 1.45,
-          }}
-        >
-          Built at AI Build Lab. Field-manual aesthetic. Field-tested code.
-        </footer>
+        <main className="brief-main">{children}</main>
       </body>
     </html>
   );

@@ -1,29 +1,38 @@
-/* Design tokens. Sourced verbatim from STYLE.md (AI Build Lab field-manual aesthetic).
-   If you edit a value here, also edit tailwind.config.ts so utilities stay aligned. */
+/* Design tokens — Quiet Regenerative palette (2026-05-24 redesign).
+   Calm, considered, precision-first. Warm paper · deep forest · soft gold.
+   If you edit a value here, also edit tailwind.config.ts. */
 
 :root {
-  --paper: #F5F2EB;
-  --paper-2: #EBE7DE;
-  --paper-3: #DDD7CA;
+  /* Paper + surfaces */
+  --paper: #F5F2EA;
+  --paper-2: #EAE4D5;
+  --paper-3: #D9CFB8;
   --surface: #FFFFFF;
-  --terminal-bg: #080808;
 
-  --ink: #0F0F0F;
-  --ink-2: #4A4A52;
-  --ink-3: #7A7A85;
-  --border: #0F0F0F;
+  /* Ink + text */
+  --ink: #1E2520;
+  --ink-2: #5A5F58;
+  --ink-3: #8A8E86;
 
-  --lime: #C8FF00;
-  --lime-dim: #A8D600;
-  --caution: #FF3300;
-  --blueprint: #0055FF;
-  --success: #00D084;
-  --on-lime: #0F0F0F;
+  /* Brand */
+  --forest: #2A3A2E;
+  --forest-deep: #1B2620;
+  --gold: #C9A864;
+  --gold-deep: #A8843F;
+  --gold-soft: #E8D8AA;
 
-  --shadow-sm: 3px 3px 0 var(--border);
-  --shadow: 5px 5px 0 var(--border);
-  --shadow-lg: 9px 9px 0 var(--border);
+  /* Borders + strokes */
+  --border: #2A3A2E;
+  --border-soft: rgba(42, 58, 46, 0.18);
+  --rule: rgba(42, 58, 46, 0.12);
 
-  --grid: rgba(15, 15, 15, 0.055);
-  --tape: rgba(255, 247, 185, 0.82);
+  /* Status (muted, never shouting) */
+  --success: #5A7E5C;
+  --warning: #C76F3C;
+  --on-gold: #1E2520;
+  --on-forest: #F5F2EA;
+
+  /* Shadows — soft, almost paper-flat */
+  --shadow-soft: 0 1px 2px rgba(30, 37, 32, 0.06), 0 2px 8px rgba(30, 37, 32, 0.04);
+  --shadow-card: 0 1px 0 var(--rule);
 }
