@@ -34,10 +34,12 @@ export type Brief = {
   sections: BriefSection[]; // ordered list, render in order
   source_status: SourceStatus[];
   delivery_status: DeliveryStatus;
+  body_markdown?: string; // full Obsidian daily-note markdown — Vercel hero render
   created_at?: string; // ISO 8601, server-assigned
 };
 
 // Lightweight runtime guard. Throws if any required field is missing.
+// body_markdown is optional — older briefs and Telegram-only payloads omit it.
 export function validateBrief(input: unknown): Brief {
   if (!input || typeof input !== "object") throw new Error("brief: not an object");
   const b = input as Record<string, unknown>;
@@ -47,5 +49,8 @@ export function validateBrief(input: unknown): Brief {
   }
   if (!Array.isArray(b.sections)) throw new Error("brief: sections must be an array");
   if (!Array.isArray(b.source_status)) throw new Error("brief: source_status must be an array");
+  if ("body_markdown" in b && b.body_markdown != null && typeof b.body_markdown !== "string") {
+    throw new Error("brief: body_markdown must be a string when present");
+  }
   return b as unknown as Brief;
 }

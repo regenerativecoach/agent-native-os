@@ -1,5 +1,6 @@
 import type { Brief } from "@/lib/brief-contract";
 import { supabaseAdmin } from "@/lib/supabase";
+import { ObsidianBrief } from "@/lib/obsidian-brief";
 
 export const dynamic = "force-dynamic";
 
@@ -41,7 +42,17 @@ export default async function Page() {
 
   return (
     <>
-      {latest ? <BriefHero brief={latest} /> : <EmptyHero />}
+      {latest ? (
+        latest.body_markdown ? (
+          <article className="brief-hero brief-hero-full">
+            <ObsidianBrief markdown={latest.body_markdown} />
+          </article>
+        ) : (
+          <BriefHero brief={latest} />
+        )
+      ) : (
+        <EmptyHero />
+      )}
 
       <details className="field-log">
         <summary>Field log</summary>

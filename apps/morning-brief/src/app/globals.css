@@ -371,3 +371,212 @@ body {
   text-decoration-thickness: 1px;
   text-underline-offset: 2px;
 }
+
+/* ─── Full Obsidian brief render ───────────────────────── */
+
+.brief-hero-full {
+  padding: 2.2rem 2rem 2.4rem;
+}
+
+@media (max-width: 600px) {
+  .brief-hero-full { padding: 1.4rem 1.15rem 1.6rem; }
+}
+
+.obsidian-brief h1 {
+  font-family: "Newsreader", Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(1.8rem, 4vw, 2.35rem);
+  line-height: 1.16;
+  letter-spacing: -0.014em;
+  margin: 0 0 1.4rem;
+  color: var(--ink);
+}
+
+.obsidian-brief h2 {
+  font-family: "Newsreader", Georgia, serif;
+  font-weight: 500;
+  font-size: 1.25rem;
+  line-height: 1.25;
+  margin: 2.2rem 0 0.7rem;
+  color: var(--forest);
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 0.4rem;
+}
+
+.obsidian-brief h3 {
+  font-family: "Newsreader", Georgia, serif;
+  font-weight: 500;
+  font-size: 1.08rem;
+  margin: 1.4rem 0 0.5rem;
+  color: var(--ink);
+}
+
+.obsidian-brief p {
+  margin: 0 0 0.95rem;
+  line-height: 1.62;
+  color: var(--ink);
+}
+
+.obsidian-brief ul,
+.obsidian-brief ol {
+  margin: 0 0 1rem;
+  padding-left: 1.4rem;
+  color: var(--ink);
+}
+
+.obsidian-brief li {
+  margin-bottom: 0.32rem;
+  line-height: 1.55;
+}
+
+.obsidian-brief a {
+  color: var(--gold-deep);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+.obsidian-brief a:hover {
+  color: var(--ink);
+}
+
+.obsidian-brief code {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.86em;
+  background: var(--paper-3);
+  padding: 0.08rem 0.32rem;
+  border-radius: 2px;
+  color: var(--ink);
+}
+
+.obsidian-brief blockquote {
+  margin: 0.6rem 0 1.1rem;
+  padding: 0.55rem 0.95rem;
+  border-left: 2px solid var(--ink-3);
+  color: var(--ink-2);
+  font-style: italic;
+  background: var(--paper-2);
+}
+
+.obsidian-brief hr {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 2rem 0;
+}
+
+.obsidian-brief strong { font-weight: 600; color: var(--ink); }
+.obsidian-brief em { font-style: italic; }
+
+/* ─── Obsidian callouts ────────────────────────────────── */
+
+.callout {
+  border: 1px solid var(--border-soft);
+  border-left: 3px solid var(--ink-3);
+  border-radius: 3px;
+  background: var(--paper-2);
+  padding: 0;
+  margin: 1rem 0 1.2rem;
+  overflow: hidden;
+}
+
+.callout > summary.callout-title {
+  cursor: pointer;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  color: var(--ink-2);
+  list-style: none;
+  padding: 0.65rem 0.9rem 0.65rem 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  user-select: none;
+}
+
+.callout > summary.callout-title::-webkit-details-marker { display: none; }
+
+.callout > summary.callout-title::before {
+  content: "▸";
+  color: var(--ink-3);
+  font-family: inherit;
+  font-size: 0.65rem;
+  width: 0.7rem;
+  display: inline-block;
+}
+
+.callout[open] > summary.callout-title::before {
+  content: "▾";
+}
+
+.callout-body {
+  padding: 0 0.95rem 0.85rem;
+  color: var(--ink);
+  font-size: 0.97rem;
+  line-height: 1.58;
+}
+
+.callout-body > *:first-child { margin-top: 0.2rem; }
+.callout-body > *:last-child { margin-bottom: 0; }
+
+.callout-body p { margin: 0 0 0.7rem; }
+.callout-body ul, .callout-body ol { margin: 0 0 0.7rem; padding-left: 1.3rem; }
+.callout-body li { margin-bottom: 0.22rem; }
+
+/* Per-type variants */
+
+.callout-quote, .callout-cite {
+  border-left-color: var(--gold-deep);
+  background: rgba(232, 216, 170, 0.32);
+}
+.callout-quote .callout-body, .callout-cite .callout-body {
+  font-family: "Newsreader", Georgia, serif;
+  font-style: italic;
+  font-size: 1.06rem;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.callout-quote > summary.callout-title, .callout-cite > summary.callout-title {
+  color: var(--gold-deep);
+}
+
+.callout-abstract {
+  border-left-color: var(--forest);
+}
+.callout-abstract > summary.callout-title { color: var(--forest); }
+
+.callout-warning {
+  border-left-color: var(--warning);
+  background: rgba(199, 111, 60, 0.08);
+}
+.callout-warning > summary.callout-title { color: var(--warning); }
+
+.callout-tip {
+  border-left-color: var(--gold-deep);
+  background: rgba(201, 168, 100, 0.12);
+}
+.callout-tip > summary.callout-title { color: var(--gold-deep); }
+.callout-tip .callout-body { font-family: "Newsreader", Georgia, serif; line-height: 1.55; }
+
+.callout-todo {
+  border-left-color: var(--forest);
+  background: rgba(42, 58, 46, 0.05);
+}
+.callout-todo > summary.callout-title { color: var(--forest); }
+
+.callout-note, .callout-info {
+  border-left-color: var(--ink-2);
+}
+.callout-note > summary.callout-title, .callout-info > summary.callout-title { color: var(--ink-2); }
+
+.callout-success {
+  border-left-color: var(--success);
+  background: rgba(90, 126, 92, 0.08);
+}
+.callout-success > summary.callout-title { color: var(--success); }
+
+/* example + list keep the default ink-3 left border */
+.callout-example > summary.callout-title, .callout-list > summary.callout-title {
+  color: var(--ink-2);
+}

@@ -32,6 +32,7 @@ export async function POST(req: Request) {
         sections: brief.sections,
         source_status: brief.source_status,
         delivery_status: brief.delivery_status,
+        body_markdown: brief.body_markdown ?? null,
       })
       .select()
       .single();
