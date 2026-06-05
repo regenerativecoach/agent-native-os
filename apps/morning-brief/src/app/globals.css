@@ -4,270 +4,523 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Quiet Regenerative base — calm paper, deep forest ink, no grid pattern. */
-html {
-  scroll-behavior: smooth;
-}
+/* ──────────────────────────────────────────────────────────────
+   SURFER / Water aesthetic — aligned with AgentOS-Guide.
+   Sticky header → sticky tab nav → tab panels with ripple-gradient hero bands.
+   ────────────────────────────────────────────────────────────── */
+
+html { scroll-behavior: smooth; font-size: 16px; }
 
 body {
-  font-family: "Inter", sans-serif;
-  background: var(--paper);
-  color: var(--ink);
-  line-height: 1.62;
-  font-size: 17px;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  background:
+    radial-gradient(circle at 50% 16%, rgba(31,111,178,0.10) 0%, rgba(31,111,178,0) 40%),
+    radial-gradient(circle at 50% 16%, rgba(43,140,180,0.06) 22%, rgba(43,140,180,0) 60%),
+    var(--bg);
+  background-attachment: fixed;
+  color: var(--text);
+  line-height: 1.65;
+  font-size: 16px;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
-.font-display {
-  font-family: "Newsreader", Georgia, serif;
-  font-weight: 400;
+/* Italic-serif accent — the SURFER pivot voice */
+.serif-accent {
+  font-family: "Lora", "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--rise);
   letter-spacing: -0.01em;
-  line-height: 1.18;
 }
+.serif-accent.bright { color: var(--water-bright); }
 
-.font-mono {
-  font-family: "JetBrains Mono", monospace;
+/* ─── Sticky header ───────────────────────────────────── */
+
+.site-header {
+  background:
+    radial-gradient(circle at 18% 120%, var(--glow) 0%, rgba(31,111,178,0) 55%),
+    linear-gradient(150deg, var(--paper) 0%, var(--surface-2) 55%, var(--surface-3) 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 1.6rem 1.6rem 1.3rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
-
-/* ─── Header ──────────────────────────────────────────── */
-
-.brief-header {
-  padding: 1.6rem 1.35rem 0;
-  max-width: 740px;
+.header-inner {
+  max-width: 1100px;
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
   align-items: baseline;
-  border-bottom: 1px solid var(--rule);
-  padding-bottom: 0.9rem;
+  gap: 1.5rem;
+  flex-wrap: wrap;
 }
-
-.brief-wordmark {
-  font-family: "Newsreader", Georgia, serif;
+.site-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+.site-title em {
+  font-family: "Lora", Georgia, serif;
   font-style: italic;
-  font-size: 0.95rem;
-  color: var(--ink-2);
-  letter-spacing: 0.005em;
+  font-weight: 500;
+  color: var(--rise);
 }
-
-.brief-header-date {
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.74rem;
+.site-tagline {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--ink-3);
+}
+.header-date {
+  margin-left: auto;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
 }
 
-/* ─── Hero brief card ─────────────────────────────────── */
+/* ─── Sticky tab nav ──────────────────────────────────── */
 
-.brief-main {
-  max-width: 740px;
+.nav-bar {
+  background: var(--paper-2);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 99;
+}
+.nav-inner {
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 2.6rem 1.35rem 4rem;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+}
+.nav-tab {
+  padding: 0.85rem 1.4rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  border: none;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: all 0.15s;
+  background: transparent;
+  letter-spacing: 0.03em;
+  font-family: inherit;
+}
+.nav-tab:hover { color: var(--text); background: var(--surface-2); }
+.nav-tab.active { color: var(--rise); border-bottom-color: var(--rise); }
+.nav-tab .badge {
+  display: inline-block;
+  margin-left: 0.4rem;
+  background: rgba(31,111,178,0.16);
+  color: var(--rise);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.62rem;
+  padding: 0.05em 0.45em;
+  border-radius: 8px;
+  letter-spacing: 0.04em;
+  font-weight: 700;
 }
 
-.brief-hero {
-  background: var(--surface);
-  border: 1px solid var(--border-soft);
-  border-radius: 4px;
-  padding: 2.4rem 2.2rem 2.6rem;
-  box-shadow: var(--shadow-soft);
+/* ─── Main + panels ───────────────────────────────────── */
+
+main.brief-main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ─── Hero band (per tab) ─────────────────────────────── */
+
+.hero-band {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 88% -10%, var(--glow) 0%, rgba(31,111,178,0) 45%),
+    radial-gradient(ellipse at 70% 120%, rgba(58,160,219,0.10) 0%, rgba(58,160,219,0) 60%),
+    linear-gradient(125deg, var(--paper) 0%, var(--surface-2) 55%, var(--surface-3) 100%);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--rise);
+  border-radius: 12px;
+  padding: 2rem 2.25rem 2.1rem;
+  margin-bottom: 2rem;
+}
+.hero-band::after {
+  content: "";
+  position: absolute;
+  top: -140px; right: -140px;
+  width: 380px; height: 380px;
+  border-radius: 50%;
+  background: repeating-radial-gradient(circle at center,
+    rgba(31,111,178,0.13) 0px, rgba(31,111,178,0.13) 1px,
+    transparent 1px, transparent 28px);
+  pointer-events: none;
+  opacity: 0.7;
+}
+.hero-band::before {
+  content: "";
+  position: absolute;
+  bottom: -60px; left: -40px;
+  width: 360px; height: 200px;
+  background:
+    radial-gradient(circle at 20% 60%, rgba(58,160,219,0.18) 0%, rgba(58,160,219,0) 60%),
+    radial-gradient(circle at 50% 80%, rgba(31,111,178,0.10) 0%, rgba(31,111,178,0) 60%);
+  pointer-events: none;
+  opacity: 0.85;
+}
+.hero-band > * { position: relative; z-index: 1; }
+.hero-eyebrow {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--rise);
+  margin-bottom: 0.6rem;
+}
+.hero-band h1 {
+  color: var(--text);
+  font-size: clamp(1.7rem, 3.4vw, 2.2rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  margin: 0;
+}
+.hero-band h1 .serif-accent { font-size: 1.05em; }
+.hero-subtitle {
+  font-size: 0.98rem;
+  color: var(--text-muted);
+  margin-top: 0.85rem;
+  max-width: 64ch;
+  line-height: 1.55;
 }
 
-@media (max-width: 600px) {
-  .brief-hero { padding: 1.6rem 1.3rem 1.9rem; }
-}
+/* ─── Top priority (Today tab — the dominant block) ───── */
 
-.brief-eyebrow {
+.priority-block {
+  position: relative;
+  background:
+    radial-gradient(circle at 92% 8%, rgba(58,160,219,0.18) 0%, rgba(58,160,219,0) 55%),
+    linear-gradient(135deg, rgba(31,111,178,0.06) 0%, rgba(31,111,178,0.10) 100%);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--rise);
+  padding: 1.2rem 1.4rem 1.3rem;
+  margin: 0 0 1.75rem;
+  border-radius: 8px;
+}
+.priority-label {
   font-family: "JetBrains Mono", monospace;
   font-size: 0.66rem;
   text-transform: uppercase;
-  letter-spacing: 0.16em;
-  color: var(--gold-deep);
-  margin-bottom: 0.7rem;
-}
-
-.brief-title {
-  font-family: "Newsreader", Georgia, serif;
-  font-weight: 400;
-  font-size: clamp(1.7rem, 3.6vw, 2.25rem);
-  line-height: 1.18;
-  letter-spacing: -0.012em;
-  margin: 0 0 1.1rem;
-  color: var(--ink);
-}
-
-.brief-summary {
-  font-size: 1.08rem;
-  line-height: 1.6;
-  color: var(--ink-2);
-  margin: 0 0 2rem;
-  font-family: "Newsreader", Georgia, serif;
-  font-weight: 300;
-}
-
-/* ─── Top priority — the dominant block ──────────────── */
-
-.priority-block {
-  background: var(--gold-soft);
-  border-left: 3px solid var(--gold-deep);
-  padding: 1.1rem 1.2rem 1.15rem;
-  margin: 0 0 2.4rem;
-  border-radius: 2px;
-}
-
-.priority-label {
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.64rem;
-  text-transform: uppercase;
   letter-spacing: 0.18em;
-  color: var(--gold-deep);
-  margin-bottom: 0.35rem;
+  color: var(--rise);
+  margin-bottom: 0.4rem;
   font-weight: 700;
 }
-
 .priority-text {
-  font-family: "Newsreader", Georgia, serif;
-  font-size: 1.18rem;
-  line-height: 1.35;
-  color: var(--ink);
+  font-family: "Lora", Georgia, serif;
+  font-style: italic;
+  font-size: 1.22rem;
+  line-height: 1.4;
+  color: var(--text);
   font-weight: 500;
 }
 
-/* ─── Sections (Day Shape, Top in flight, Field signal) ─ */
+/* ─── Workstream count strip (Today tab) ──────────────── */
 
-.brief-section {
-  margin-bottom: 1.8rem;
-  padding-bottom: 1.8rem;
-  border-bottom: 1px solid var(--rule);
+.workstream-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.6rem;
+  margin: 0 0 2rem;
 }
-
-.brief-section:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
-  margin-bottom: 0;
+.workstream-chip {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.7rem 0.85rem;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
 }
-
-.section-heading {
+.workstream-chip:hover {
+  border-color: var(--rise-dim);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(31,111,178,0.08);
+}
+.workstream-chip-name {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.25rem;
+}
+.workstream-chip-count {
   font-family: "JetBrains Mono", monospace;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  color: var(--forest);
-  margin: 0 0 0.6rem;
+  font-size: 0.95rem;
+  color: var(--rise);
   font-weight: 700;
+  line-height: 1;
+}
+.workstream-chip-detail {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
-.section-body {
-  color: var(--ink);
-  font-size: 1rem;
-  line-height: 1.62;
-  white-space: pre-wrap;
-  margin: 0;
-}
+/* ─── Brief content (Obsidian markdown render) ────────── */
 
-.section-body a {
-  color: var(--gold-deep);
+.brief-content { max-width: 760px; }
+
+.obsidian-brief h1 {
+  font-size: clamp(1.7rem, 3.4vw, 2.1rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.18;
+  color: var(--text);
+  margin: 0 0 1.2rem;
+}
+.obsidian-brief h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 2.2rem 0 0.9rem;
+  color: var(--rise);
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 0.4rem;
+}
+.obsidian-brief h3 {
+  font-size: 1.02rem;
+  font-weight: 600;
+  margin: 1.4rem 0 0.5rem;
+  color: var(--text);
+}
+.obsidian-brief p {
+  margin: 0 0 0.95rem;
+  line-height: 1.65;
+  color: var(--text);
+}
+.obsidian-brief ul,
+.obsidian-brief ol {
+  margin: 0 0 1rem;
+  padding-left: 1.4rem;
+  color: var(--text);
+}
+.obsidian-brief li {
+  margin-bottom: 0.32rem;
+  line-height: 1.55;
+}
+.obsidian-brief a {
+  color: var(--rise);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 2px;
 }
+.obsidian-brief a:hover { color: var(--water-bright); }
+.obsidian-brief code {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.86em;
+  background: rgba(31,111,178,0.08);
+  padding: 0.08rem 0.4rem;
+  border-radius: 3px;
+  color: #1a5d9e;
+}
+.obsidian-brief blockquote {
+  margin: 0.6rem 0 1.1rem;
+  padding: 0.55rem 0.95rem;
+  border-left: 2px solid var(--rise-dim);
+  color: var(--text-muted);
+  font-style: italic;
+  background: var(--paper-2);
+  border-radius: 0 6px 6px 0;
+}
+.obsidian-brief hr {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 2rem 0;
+}
+.obsidian-brief strong { font-weight: 600; color: var(--text); }
+.obsidian-brief em { font-style: italic; color: var(--text-muted); }
+
+/* ─── Obsidian callouts ───────────────────────────────── */
+
+.callout {
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--rise-dim);
+  border-radius: 6px;
+  background: var(--surface);
+  padding: 0;
+  margin: 1rem 0 1.2rem;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+.callout > summary.callout-title {
+  cursor: pointer;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  color: var(--text-muted);
+  list-style: none;
+  padding: 0.7rem 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  user-select: none;
+}
+.callout > summary.callout-title::-webkit-details-marker { display: none; }
+.callout > summary.callout-title::before {
+  content: "▸";
+  color: var(--text-dim);
+  font-size: 0.65rem;
+  width: 0.7rem;
+  display: inline-block;
+}
+.callout[open] > summary.callout-title::before { content: "▾"; }
+
+.callout-body {
+  padding: 0 0.95rem 0.9rem;
+  color: var(--text);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+.callout-body > *:first-child { margin-top: 0.2rem; }
+.callout-body > *:last-child { margin-bottom: 0; }
+.callout-body p { margin: 0 0 0.7rem; }
+.callout-body ul, .callout-body ol { margin: 0 0 0.7rem; padding-left: 1.3rem; }
+.callout-body li { margin-bottom: 0.22rem; }
+.callout-body a {
+  color: var(--rise);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+.callout-body code {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.84em;
+  background: rgba(31,111,178,0.08);
+  padding: 0.06rem 0.34rem;
+  border-radius: 3px;
+  color: #1a5d9e;
+}
+
+/* Per-type callout variants — recoloured to the SURFER palette */
+.callout-quote, .callout-cite {
+  border-left-color: var(--water);
+  background: rgba(43,140,180,0.05);
+}
+.callout-quote .callout-body, .callout-cite .callout-body {
+  font-family: "Lora", Georgia, serif;
+  font-style: italic;
+  font-size: 1.04rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+.callout-quote > summary.callout-title, .callout-cite > summary.callout-title { color: var(--water); }
+
+.callout-abstract { border-left-color: var(--rise); }
+.callout-abstract > summary.callout-title { color: var(--rise); }
+
+.callout-warning {
+  border-left-color: var(--warning);
+  background: rgba(176,93,36,0.06);
+}
+.callout-warning > summary.callout-title { color: var(--warning); }
+
+.callout-tip {
+  border-left-color: var(--rise);
+  background: rgba(31,111,178,0.05);
+}
+.callout-tip > summary.callout-title { color: var(--rise); }
+.callout-tip .callout-body { line-height: 1.6; }
+
+.callout-todo {
+  border-left-color: var(--fall);
+  background: rgba(44,143,134,0.05);
+}
+.callout-todo > summary.callout-title { color: var(--fall); }
+
+.callout-note, .callout-info { border-left-color: var(--text-muted); }
+.callout-note > summary.callout-title, .callout-info > summary.callout-title { color: var(--text-muted); }
+
+.callout-success {
+  border-left-color: var(--success);
+  background: rgba(47,157,110,0.06);
+}
+.callout-success > summary.callout-title { color: var(--success); }
+
+.callout-example, .callout-list { border-left-color: var(--rise-dim); }
+.callout-example > summary.callout-title, .callout-list > summary.callout-title { color: var(--rise); }
 
 /* ─── Empty state ─────────────────────────────────────── */
 
 .brief-empty {
   background: var(--paper-2);
-  border: 1px dashed var(--border-soft);
-  border-radius: 4px;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
   padding: 2.4rem 2.2rem;
   text-align: center;
-  color: var(--ink-2);
+  color: var(--text-muted);
 }
-
 .brief-empty h2 {
-  font-family: "Newsreader", Georgia, serif;
-  font-weight: 400;
+  font-weight: 600;
   font-size: 1.3rem;
-  color: var(--ink);
+  color: var(--text);
   margin: 0 0 0.6rem;
 }
-
 .brief-empty code {
   font-family: "JetBrains Mono", monospace;
   font-size: 0.85rem;
-  background: var(--paper-3);
-  padding: 0.1rem 0.35rem;
-  border-radius: 2px;
-  color: var(--ink);
+  background: rgba(31,111,178,0.08);
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
+  color: #1a5d9e;
 }
 
-/* ─── Field log (below-fold diagnostics) ─────────────── */
+/* ─── Log tab — diagnostics ───────────────────────────── */
 
-.field-log {
-  margin-top: 3.6rem;
-  border-top: 1px solid var(--rule);
-  padding-top: 1.6rem;
-}
-
-.field-log > summary {
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  color: var(--ink-2);
-  cursor: pointer;
-  list-style: none;
-  padding: 0.4rem 0;
-  user-select: none;
-}
-
-.field-log > summary::-webkit-details-marker { display: none; }
-
-.field-log > summary::before {
-  content: "▸ ";
-  color: var(--gold-deep);
-  margin-right: 0.3rem;
-}
-
-.field-log[open] > summary::before {
-  content: "▾ ";
-}
-
-.field-log-grid {
+.log-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.4rem;
-  margin: 1.2rem 0 1.8rem;
+  gap: 1.2rem;
+  margin: 0 0 1.6rem;
 }
-
 @media (max-width: 600px) {
-  .field-log-grid { grid-template-columns: 1fr; }
+  .log-grid { grid-template-columns: 1fr; }
 }
-
-.field-log-card {
-  background: var(--paper-2);
-  border: 1px solid var(--border-soft);
-  border-radius: 3px;
-  padding: 1rem 1.1rem 1.1rem;
+.log-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.1rem 1.25rem;
 }
-
-.field-log-card-label {
+.log-card-label {
   font-family: "JetBrains Mono", monospace;
-  font-size: 0.62rem;
+  font-size: 0.66rem;
   text-transform: uppercase;
   letter-spacing: 0.16em;
-  color: var(--ink-3);
+  color: var(--text-muted);
   margin-bottom: 0.7rem;
   font-weight: 700;
 }
-
-.field-log-list {
+.log-list {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -275,8 +528,7 @@ body {
   flex-direction: column;
   gap: 0.45rem;
 }
-
-.field-log-list li {
+.log-list li {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -284,299 +536,81 @@ body {
   border-bottom: 1px dashed var(--rule);
   font-size: 0.88rem;
 }
-
-.field-log-list li:last-child { border-bottom: none; padding-bottom: 0; }
-
-.field-log-list .mono { font-family: "JetBrains Mono", monospace; font-size: 0.78rem; color: var(--ink-2); }
-
-/* ─── Timeline (recent briefs) ───────────────────────── */
-
-.timeline {
-  margin-top: 1.4rem;
+.log-list li:last-child { border-bottom: none; padding-bottom: 0; }
+.log-list .mono {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.76rem;
+  color: var(--text-muted);
 }
 
 .timeline-label {
   font-family: "JetBrains Mono", monospace;
-  font-size: 0.62rem;
+  font-size: 0.66rem;
   text-transform: uppercase;
   letter-spacing: 0.16em;
-  color: var(--ink-3);
-  margin-bottom: 0.6rem;
+  color: var(--text-muted);
+  margin: 1.4rem 0 0.6rem;
   font-weight: 700;
 }
-
-.timeline-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
+.timeline-list { list-style: none; padding: 0; margin: 0; }
 .timeline-list li {
   padding: 0.5rem 0;
   border-bottom: 1px solid var(--rule);
   display: flex;
   gap: 0.9rem;
   align-items: baseline;
-  font-size: 0.94rem;
+  font-size: 0.92rem;
 }
-
 .timeline-list li:last-child { border-bottom: none; }
-
 .timeline-date {
   font-family: "JetBrains Mono", monospace;
   font-size: 0.78rem;
-  color: var(--gold-deep);
+  color: var(--rise);
   min-width: 5.5rem;
 }
+.timeline-title { color: var(--text); }
 
-.timeline-title {
-  color: var(--ink);
-  font-family: "Newsreader", Georgia, serif;
-}
-
-/* ─── Status pills (muted) ───────────────────────────── */
-
+/* Status pills */
 .status-pill {
   display: inline-flex;
   align-items: center;
   font-family: "JetBrains Mono", monospace;
   font-size: 0.66rem;
   font-weight: 600;
-  padding: 0.18rem 0.42rem 0.2rem;
-  border-radius: 2px;
+  padding: 0.18rem 0.45rem 0.2rem;
+  border-radius: 3px;
   white-space: nowrap;
   letter-spacing: 0.04em;
 }
-.status-pill.ok { background: rgba(90, 126, 92, 0.16); color: var(--success); }
-.status-pill.warn { background: rgba(199, 111, 60, 0.18); color: var(--warning); }
-.status-pill.muted { background: var(--paper-3); color: var(--ink-3); }
+.status-pill.ok { background: rgba(47,157,110,0.18); color: var(--success); }
+.status-pill.warn { background: rgba(176,93,36,0.18); color: var(--warning); }
+.status-pill.muted { background: var(--surface-3); color: var(--text-muted); }
 
-/* ─── Footer ─────────────────────────────────────────── */
+/* ─── Section preamble (between hero and content) ─────── */
 
-.brief-footer {
-  max-width: 740px;
-  margin: 0 auto;
-  padding: 1.8rem 1.35rem 2.4rem;
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.7rem;
-  color: var(--ink-3);
-  text-align: center;
-  border-top: 1px solid var(--rule);
-  margin-top: 2rem;
-}
-
-.brief-footer a {
-  color: var(--ink-3);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 2px;
-}
-
-/* ─── Full Obsidian brief render ───────────────────────── */
-
-.brief-hero-full {
-  padding: 2.2rem 2rem 2.4rem;
-}
-
-@media (max-width: 600px) {
-  .brief-hero-full { padding: 1.4rem 1.15rem 1.6rem; }
-}
-
-.obsidian-brief h1 {
-  font-family: "Newsreader", Georgia, serif;
-  font-weight: 400;
-  font-size: clamp(1.8rem, 4vw, 2.35rem);
-  line-height: 1.16;
-  letter-spacing: -0.014em;
-  margin: 0 0 1.4rem;
-  color: var(--ink);
-}
-
-.obsidian-brief h2 {
-  font-family: "Newsreader", Georgia, serif;
-  font-weight: 500;
-  font-size: 1.25rem;
-  line-height: 1.25;
-  margin: 2.2rem 0 0.7rem;
-  color: var(--forest);
-  border-bottom: 1px solid var(--rule);
-  padding-bottom: 0.4rem;
-}
-
-.obsidian-brief h3 {
-  font-family: "Newsreader", Georgia, serif;
-  font-weight: 500;
-  font-size: 1.08rem;
-  margin: 1.4rem 0 0.5rem;
-  color: var(--ink);
-}
-
-.obsidian-brief p {
-  margin: 0 0 0.95rem;
-  line-height: 1.62;
-  color: var(--ink);
-}
-
-.obsidian-brief ul,
-.obsidian-brief ol {
-  margin: 0 0 1rem;
-  padding-left: 1.4rem;
-  color: var(--ink);
-}
-
-.obsidian-brief li {
-  margin-bottom: 0.32rem;
+.tab-preamble {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin: 0 0 1.5rem;
+  max-width: 70ch;
   line-height: 1.55;
 }
 
-.obsidian-brief a {
-  color: var(--gold-deep);
+/* ─── Footer ──────────────────────────────────────────── */
+
+.brief-footer {
+  max-width: 1100px;
+  margin: 2.5rem auto 0;
+  padding: 1.6rem 1.5rem 2.2rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  text-align: center;
+  border-top: 1px solid var(--rule);
+}
+.brief-footer a {
+  color: var(--text-muted);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 2px;
-}
-
-.obsidian-brief a:hover {
-  color: var(--ink);
-}
-
-.obsidian-brief code {
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.86em;
-  background: var(--paper-3);
-  padding: 0.08rem 0.32rem;
-  border-radius: 2px;
-  color: var(--ink);
-}
-
-.obsidian-brief blockquote {
-  margin: 0.6rem 0 1.1rem;
-  padding: 0.55rem 0.95rem;
-  border-left: 2px solid var(--ink-3);
-  color: var(--ink-2);
-  font-style: italic;
-  background: var(--paper-2);
-}
-
-.obsidian-brief hr {
-  border: none;
-  border-top: 1px solid var(--rule);
-  margin: 2rem 0;
-}
-
-.obsidian-brief strong { font-weight: 600; color: var(--ink); }
-.obsidian-brief em { font-style: italic; }
-
-/* ─── Obsidian callouts ────────────────────────────────── */
-
-.callout {
-  border: 1px solid var(--border-soft);
-  border-left: 3px solid var(--ink-3);
-  border-radius: 3px;
-  background: var(--paper-2);
-  padding: 0;
-  margin: 1rem 0 1.2rem;
-  overflow: hidden;
-}
-
-.callout > summary.callout-title {
-  cursor: pointer;
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-weight: 700;
-  color: var(--ink-2);
-  list-style: none;
-  padding: 0.65rem 0.9rem 0.65rem 0.85rem;
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  user-select: none;
-}
-
-.callout > summary.callout-title::-webkit-details-marker { display: none; }
-
-.callout > summary.callout-title::before {
-  content: "▸";
-  color: var(--ink-3);
-  font-family: inherit;
-  font-size: 0.65rem;
-  width: 0.7rem;
-  display: inline-block;
-}
-
-.callout[open] > summary.callout-title::before {
-  content: "▾";
-}
-
-.callout-body {
-  padding: 0 0.95rem 0.85rem;
-  color: var(--ink);
-  font-size: 0.97rem;
-  line-height: 1.58;
-}
-
-.callout-body > *:first-child { margin-top: 0.2rem; }
-.callout-body > *:last-child { margin-bottom: 0; }
-
-.callout-body p { margin: 0 0 0.7rem; }
-.callout-body ul, .callout-body ol { margin: 0 0 0.7rem; padding-left: 1.3rem; }
-.callout-body li { margin-bottom: 0.22rem; }
-
-/* Per-type variants */
-
-.callout-quote, .callout-cite {
-  border-left-color: var(--gold-deep);
-  background: rgba(232, 216, 170, 0.32);
-}
-.callout-quote .callout-body, .callout-cite .callout-body {
-  font-family: "Newsreader", Georgia, serif;
-  font-style: italic;
-  font-size: 1.06rem;
-  line-height: 1.5;
-  color: var(--ink);
-}
-.callout-quote > summary.callout-title, .callout-cite > summary.callout-title {
-  color: var(--gold-deep);
-}
-
-.callout-abstract {
-  border-left-color: var(--forest);
-}
-.callout-abstract > summary.callout-title { color: var(--forest); }
-
-.callout-warning {
-  border-left-color: var(--warning);
-  background: rgba(199, 111, 60, 0.08);
-}
-.callout-warning > summary.callout-title { color: var(--warning); }
-
-.callout-tip {
-  border-left-color: var(--gold-deep);
-  background: rgba(201, 168, 100, 0.12);
-}
-.callout-tip > summary.callout-title { color: var(--gold-deep); }
-.callout-tip .callout-body { font-family: "Newsreader", Georgia, serif; line-height: 1.55; }
-
-.callout-todo {
-  border-left-color: var(--forest);
-  background: rgba(42, 58, 46, 0.05);
-}
-.callout-todo > summary.callout-title { color: var(--forest); }
-
-.callout-note, .callout-info {
-  border-left-color: var(--ink-2);
-}
-.callout-note > summary.callout-title, .callout-info > summary.callout-title { color: var(--ink-2); }
-
-.callout-success {
-  border-left-color: var(--success);
-  background: rgba(90, 126, 92, 0.08);
-}
-.callout-success > summary.callout-title { color: var(--success); }
-
-/* example + list keep the default ink-3 left border */
-.callout-example > summary.callout-title, .callout-list > summary.callout-title {
-  color: var(--ink-2);
 }

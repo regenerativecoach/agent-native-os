@@ -1,38 +1,62 @@
-/* Design tokens — Quiet Regenerative palette (2026-05-24 redesign).
-   Calm, considered, precision-first. Warm paper · deep forest · soft gold.
-   If you edit a value here, also edit tailwind.config.ts. */
+/* Design tokens — SURFER / Water palette (aligned with AgentOS-Guide, 2026-06-05).
+   White ground, blue ink, ripple-clean — WAVES philosophy in CSS.
+   Legacy gold/forest aliases retained so older selectors keep working. */
 
 :root {
-  /* Paper + surfaces */
-  --paper: #F5F2EA;
-  --paper-2: #EAE4D5;
-  --paper-3: #D9CFB8;
-  --surface: #FFFFFF;
+  /* Ground + surfaces */
+  --bg:         #ffffff;
+  --paper:      #f6fafd;
+  --paper-2:    #f2f8fc;
+  --paper-3:    #e7f1f8;
+  --surface:    #ffffff;
+  --surface-2:  #e7f1f8;
+  --surface-3:  #d8e8f3;
 
   /* Ink + text */
-  --ink: #1E2520;
-  --ink-2: #5A5F58;
-  --ink-3: #8A8E86;
+  --text:       #143a58;   /* deep ink-blue */
+  --text-muted: #4e7088;
+  --text-dim:   #93b0c5;
+  --ink:        #143a58;
+  --ink-2:      #4e7088;
+  --ink-3:      #93b0c5;
 
-  /* Brand */
-  --forest: #2A3A2E;
-  --forest-deep: #1B2620;
-  --gold: #C9A864;
-  --gold-deep: #A8843F;
-  --gold-soft: #E8D8AA;
+  /* Brand — Water family */
+  --rise:         #1f6fb2;   /* primary water blue — headings & chrome */
+  --rise-dim:     #74aad6;
+  --water:        #2b8cb4;
+  --water-bright: #3aa0db;   /* cyan accent */
+
+  /* Element palette (kept for cards / callouts) */
+  --fall:       #2c8f86;
+  --fall-dim:   #6cbab2;
+  --amber:      #b05d24;
+  --metal:      #5f6bb0;
+  --earth:      #b08a3a;
+  --fire:       #c75a2c;
+  --wood:       #2f9d6e;
+  --purple:     #5f6db0;
+
+  /* Card tints */
+  --card-rise:  rgba(31,111,178,0.07);
+  --card-fall:  rgba(44,143,134,0.08);
+  --card-water: rgba(43,140,180,0.08);
+  --glow:       rgba(31,111,178,0.16);
 
   /* Borders + strokes */
-  --border: #2A3A2E;
-  --border-soft: rgba(42, 58, 46, 0.18);
-  --rule: rgba(42, 58, 46, 0.12);
+  --border:      #cde0ee;
+  --border-soft: rgba(31,111,178,0.18);
+  --rule:        rgba(31,111,178,0.12);
 
-  /* Status (muted, never shouting) */
-  --success: #5A7E5C;
-  --warning: #C76F3C;
-  --on-gold: #1E2520;
-  --on-forest: #F5F2EA;
+  /* Status */
+  --success: #2f9d6e;
+  --warning: #b05d24;
 
-  /* Shadows — soft, almost paper-flat */
-  --shadow-soft: 0 1px 2px rgba(30, 37, 32, 0.06), 0 2px 8px rgba(30, 37, 32, 0.04);
+  /* Legacy aliases — keep old selectors alive during the SURFER migration */
+  --gold-deep: #1f6fb2;
+  --gold-soft: rgba(31,111,178,0.10);
+  --forest:    #143a58;
+
+  /* Shadows */
+  --shadow-soft: 0 1px 2px rgba(20,58,88,0.06), 0 2px 8px rgba(20,58,88,0.04);
   --shadow-card: 0 1px 0 var(--rule);
 }
