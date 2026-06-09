@@ -28,9 +28,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="header-inner">
             <div>
               <div className="site-title">
-                <em>Living</em> Systems Intelligence
+                <em>Living Systems</em> Intelligence
               </div>
-              <div className="site-tagline">Morning Brief — Dan Chisholm&apos;s Daily Update</div>
+              <div className="site-tagline">Morning Brief - Dan Chisholm&apos;s Daily Update</div>
             </div>
             <div className="header-date">{formatHeaderDate()}</div>
           </div>
