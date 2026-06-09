@@ -43,6 +43,7 @@ export default async function Page() {
     ? routeBrief(latest.body_markdown)
     : {
         heroTitle: latest.title,
+        dailyMantra: "",
         today: "",
         workstreams: "",
         fieldIntel: "",

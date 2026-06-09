@@ -100,6 +100,14 @@ function TodayPanel({
           <span className="serif-accent">Today</span> — {heroLine}
         </h1>
         {brief.summary && <p className="hero-subtitle">{brief.summary}</p>}
+        {routed.dailyMantra && (
+          <div className="hero-mantra">
+            <div className="hero-mantra-label">Daily Mantra</div>
+            <div className="hero-mantra-body">
+              <ObsidianBrief markdown={routed.dailyMantra} />
+            </div>
+          </div>
+        )}
       </div>
 
       {brief.top_priority && (

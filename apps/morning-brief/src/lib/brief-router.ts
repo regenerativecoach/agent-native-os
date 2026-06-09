@@ -16,6 +16,7 @@
 
 export type RoutedBrief = {
   heroTitle: string;          // text extracted from the doc's H1 (without leading emoji)
+  dailyMantra: string;        // body of the `[!quote]+ Daily Mantra` callout (pulled into the hero)
   today: string;
   workstreams: string;
   fieldIntel: string;
@@ -217,6 +218,7 @@ export function routeBrief(markdown: string): RoutedBrief {
     log: [],
   };
   let heroTitle = "";
+  let dailyMantra = "";
   const counts: WorkstreamCount[] = [];
 
   let currentSection: string | null = null;
@@ -285,7 +287,13 @@ export function routeBrief(markdown: string): RoutedBrief {
         }
       }
     } else {
-      // Callout
+      // Callout — intercept the Daily Mantra and lift it into the hero
+      // instead of rendering it inside the Today body.
+      if (seg.type === "quote" && /daily\s*mantra/i.test(seg.title)) {
+        dailyMantra = seg.body.trim();
+        continue;
+      }
+
       const tab = routeCallout(seg.type, currentSection);
       buckets[tab].push(seg.raw);
 
@@ -299,6 +307,7 @@ export function routeBrief(markdown: string): RoutedBrief {
 
   return {
     heroTitle,
+    dailyMantra,
     today: buckets.today.join("\n\n").trim(),
     workstreams: buckets.workstreams.join("\n\n").trim(),
     fieldIntel: buckets.fieldIntel.join("\n\n").trim(),

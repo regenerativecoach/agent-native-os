@@ -204,6 +204,38 @@ main.brief-main {
   line-height: 1.55;
 }
 
+/* Daily Mantra — pulled out of the Today body into the hero band */
+.hero-mantra {
+  margin-top: 1.4rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(31,111,178,0.18);
+  max-width: 70ch;
+}
+.hero-mantra-label {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--water);
+  margin-bottom: 0.45rem;
+  font-weight: 700;
+}
+.hero-mantra-body .obsidian-brief p {
+  font-family: "Lora", "Cormorant Garamond", Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.12rem;
+  line-height: 1.5;
+  color: var(--text);
+  margin: 0 0 0.4rem;
+}
+.hero-mantra-body .obsidian-brief p:last-child { margin-bottom: 0; }
+.hero-mantra-body .obsidian-brief em { font-style: italic; color: var(--text); }
+.hero-mantra-body .obsidian-brief strong { color: var(--rise); }
+@media (max-width: 640px) {
+  .hero-mantra-body .obsidian-brief p { font-size: 1.02rem; }
+}
+
 /* ─── Top priority (Today tab — the dominant block) ───── */
 
 .priority-block {
