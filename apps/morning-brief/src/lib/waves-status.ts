@@ -41,7 +41,7 @@ export const WAVES_LAST_UPDATED = "2026-06-05";
 export const WAVES_PHASES: WavesPhase[] = [
   {
     letter: "W",
-    phaseName: "Wholeness",
+    phaseName: "Wavelength",
     product: "Start With In",
     role: "book",
     lifecycle: "launching",
@@ -49,7 +49,7 @@ export const WAVES_PHASES: WavesPhase[] = [
   },
   {
     letter: "A",
-    phaseName: "Awareness",
+    phaseName: "Attunement",
     product: "The Regenerative Coach",
     role: "programme",
     lifecycle: "building",
