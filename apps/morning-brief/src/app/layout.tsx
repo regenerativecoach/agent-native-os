@@ -3,8 +3,8 @@ import "./globals.css";
 import { formatWrittenDateWithWeekday } from "@/lib/format-date";
 
 export const metadata: Metadata = {
-  title: "Morning Brief — The Regenerative Coach",
-  description: "Dan's daily field manual.",
+  title: "Living Systems Intelligence — Morning Brief",
+  description: "Dan Chisholm's Daily Update.",
 };
 
 function formatHeaderDate(): string {
@@ -28,9 +28,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="header-inner">
             <div>
               <div className="site-title">
-                Morning <em>Brief</em>
+                <em>Living</em> Systems Intelligence
               </div>
-              <div className="site-tagline">The Regenerative Coach · Dan&apos;s daily field manual</div>
+              <div className="site-tagline">Morning Brief — Dan Chisholm&apos;s Daily Update</div>
             </div>
             <div className="header-date">{formatHeaderDate()}</div>
           </div>
