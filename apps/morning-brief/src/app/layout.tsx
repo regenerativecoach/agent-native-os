@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { formatWrittenDateWithWeekday } from "@/lib/format-date";
 
 export const metadata: Metadata = {
   title: "Morning Brief — The Regenerative Coach",
@@ -7,10 +8,8 @@ export const metadata: Metadata = {
 };
 
 function formatHeaderDate(): string {
-  const d = new Date();
-  const day = d.toLocaleDateString("en-GB", { weekday: "long" });
-  const date = d.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
-  return `${day} · ${date}`;
+  const today = new Date().toISOString().slice(0, 10);
+  return formatWrittenDateWithWeekday(today);
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

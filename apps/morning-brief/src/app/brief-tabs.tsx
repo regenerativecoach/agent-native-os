@@ -4,6 +4,7 @@ import { useState } from "react";
 import type { Brief } from "@/lib/brief-contract";
 import { ObsidianBrief } from "@/lib/obsidian-brief";
 import type { RoutedBrief } from "@/lib/brief-router";
+import { formatWrittenDateWithWeekday } from "@/lib/format-date";
 import {
   WAVES_PHASES,
   WAVES_LAST_UPDATED,
@@ -23,12 +24,6 @@ type Props = {
   recent: Brief[];
 };
 
-function formatLongDate(iso: string): string {
-  const d = new Date(iso + "T00:00:00");
-  const weekday = d.toLocaleDateString("en-GB", { weekday: "long" });
-  const date = d.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
-  return `${weekday} · ${date}`;
-}
 
 export default function BriefTabs({ brief, routed, deliveries, recent }: Props) {
   const [tab, setTab] = useState<TabId>("today");
@@ -95,7 +90,7 @@ function TodayPanel({
   return (
     <section className="tab-panel active">
       <div className="hero-band">
-        <div className="hero-eyebrow">{formatLongDate(brief.date)}</div>
+        <div className="hero-eyebrow">{formatWrittenDateWithWeekday(brief.date)}</div>
         <h1>
           <span className="serif-accent">Today</span> — {heroLine}
         </h1>

@@ -1,3 +1,5 @@
+import { rewriteIsoDates } from "./format-date";
+
 // Partition the Obsidian morning-brief markdown into 5 tab buckets:
 // today · workstreams · fieldIntel · rhythm · log.
 //
@@ -157,13 +159,22 @@ function routeCallout(type: string, section: string | null): Tab {
 }
 
 // Strip the H1 title line out of an md chunk and return both pieces.
+// IMPORTANT: do NOT use \p{Emoji} — digits 0-9 carry the Emoji property in Unicode
+// (they can form keycap sequences), which would eat the "2026" from a date like
+// "# 🌅 2026-06-09 — Morning Brief". \p{Extended_Pictographic} matches only true
+// pictographs.
 function extractH1(text: string): { title: string; rest: string } {
   const lines = text.split("\n");
   let title = "";
   const rest: string[] = [];
   for (const line of lines) {
     if (!title && /^#\s+/.test(line)) {
-      title = line.replace(/^#\s+/, "").replace(/^[\p{Emoji}\p{So}\p{Sk}\s]*/u, "").trim();
+      const stripped = line
+        .replace(/^#\s+/, "")
+        .replace(/^[\p{Extended_Pictographic}\p{So}\p{Sk}\s]*/u, "")
+        .trim();
+      // Rewrite any embedded YYYY-MM-DD into the written form ("9th June 2026").
+      title = rewriteIsoDates(stripped);
       continue;
     }
     rest.push(line);
