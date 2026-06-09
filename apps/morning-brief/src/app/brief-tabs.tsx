@@ -3,7 +3,16 @@
 import { useState } from "react";
 import type { Brief } from "@/lib/brief-contract";
 import { ObsidianBrief } from "@/lib/obsidian-brief";
-import type { RoutedBrief, WorkstreamCount } from "@/lib/brief-router";
+import type { RoutedBrief } from "@/lib/brief-router";
+import {
+  WAVES_PHASES,
+  WAVES_LAST_UPDATED,
+  FINANCIAL_PROGRESS,
+  LIFECYCLE_ORDER,
+  type WavesPhase,
+  type FinancialProgress,
+  type Lifecycle,
+} from "@/lib/waves-status";
 
 type TabId = "today" | "workstreams" | "fieldIntel" | "rhythm" | "log";
 
@@ -100,9 +109,8 @@ function TodayPanel({
         </div>
       )}
 
-      {routed.workstreamCounts.length > 0 && (
-        <WorkstreamStrip counts={routed.workstreamCounts} onClick={onJumpWorkstreams} />
-      )}
+      <WavesProgressBar phases={WAVES_PHASES} onJumpWorkstreams={onJumpWorkstreams} />
+      <FinancialBar progress={FINANCIAL_PROGRESS} />
 
       <div className="brief-content">
         <ObsidianBrief markdown={routed.today} />
@@ -111,25 +119,102 @@ function TodayPanel({
   );
 }
 
-function WorkstreamStrip({
-  counts,
-  onClick,
+/* ─── WAVES progress bar (replaces workstream chips) ───── */
+
+function lifecycleIndex(l: Lifecycle): number {
+  return LIFECYCLE_ORDER.indexOf(l) + 1; // 1..5
+}
+
+function WavesProgressBar({
+  phases,
+  onJumpWorkstreams,
 }: {
-  counts: WorkstreamCount[];
-  onClick: () => void;
+  phases: WavesPhase[];
+  onJumpWorkstreams: () => void;
 }) {
   return (
-    <div className="workstream-strip" role="group" aria-label="Workstream snapshot">
-      {counts.map((c, i) => (
-        <button key={i} className="workstream-chip" onClick={onClick} title="Open Workstreams tab">
-          <span className="workstream-chip-name">
-            {c.emoji && <span>{c.emoji}</span>}
-            <span>{c.name}</span>
-          </span>
-          <span className="workstream-chip-count">{c.primary ?? "—"}</span>
-          {c.primaryLabel && <span className="workstream-chip-detail">{c.primaryLabel}</span>}
+    <div className="status-section">
+      <div className="status-section-head">
+        <span className="status-section-label">WAVES · Programme Status</span>
+        <button className="status-section-link" onClick={onJumpWorkstreams}>
+          See tasks in Workstreams →
         </button>
-      ))}
+        <span className="status-section-meta">Status as of {WAVES_LAST_UPDATED}</span>
+      </div>
+      <div className="waves-bar" role="group" aria-label="WAVES programme status">
+        {phases.map((p) => (
+          <div key={p.letter} className={`waves-pillar stage-${p.lifecycle}`}>
+            <div className="waves-letter" aria-hidden="true">{p.letter}</div>
+            <div className="waves-phase-name">{p.phaseName}</div>
+            <div className="waves-product">{p.product}</div>
+            <span className={`waves-role ${p.role}`}>{p.role}</span>
+            <div className="lifecycle-bar" aria-label={`Lifecycle: ${p.lifecycle}`}>
+              {LIFECYCLE_ORDER.map((stage, idx) => (
+                <span
+                  key={stage}
+                  className={`lifecycle-seg ${idx < lifecycleIndex(p.lifecycle) ? `fill-${p.lifecycle}` : ""}`}
+                />
+              ))}
+            </div>
+            <div className={`lifecycle-label stage-${p.lifecycle}`}>{p.lifecycle}</div>
+            {p.note && <div className="waves-note">{p.note}</div>}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ─── Financial replacement-income bar ─────────────────── */
+
+function formatGBP(n: number | null): string {
+  if (n == null) return "—";
+  return `£${n.toLocaleString("en-GB")}`;
+}
+
+function FinancialBar({ progress }: { progress: FinancialProgress }) {
+  const { currentMonthlyGBP, targetMonthlyGBP, sessionsComplete, sessionsTotal, kpiLockSession, note } = progress;
+  const targetKnown = targetMonthlyGBP != null && targetMonthlyGBP > 0;
+  const pct = targetKnown && currentMonthlyGBP != null
+    ? Math.min(100, Math.round((currentMonthlyGBP / (targetMonthlyGBP as number)) * 100))
+    : 0;
+  return (
+    <div className="status-section">
+      <div className="status-section-head">
+        <span className="status-section-label">Income Replacement · Path A</span>
+        <span className="status-section-meta">{sessionsComplete}/{sessionsTotal} Financial Steward sessions</span>
+      </div>
+      <div className="financial-card">
+        <div className="financial-row">
+          <span className="financial-current">
+            {currentMonthlyGBP != null ? (
+              <>{formatGBP(currentMonthlyGBP)}<span style={{ fontSize: "0.72rem", color: "var(--text-muted)", marginLeft: "0.35rem" }}>/ month</span></>
+            ) : (
+              <span className="tbd">Baseline pending</span>
+            )}
+          </span>
+          <span className="financial-target">
+            Target: {targetKnown ? `${formatGBP(targetMonthlyGBP)} / month` : "TBD"}
+          </span>
+        </div>
+        <div className="financial-track" aria-label={targetKnown ? `${pct}% of target` : "target not yet set"}>
+          {targetKnown ? (
+            <div className="financial-fill" style={{ width: `${pct}%` }} />
+          ) : (
+            <div className="financial-fill unknown" style={{ width: "100%" }} />
+          )}
+        </div>
+        <div className="financial-meta">
+          <span>
+            {note ?? "Financial Steward sessions lock the replacement-income KPI."}
+          </span>
+          <span className="sessions">
+            KPI locks at session{" "}
+            <span className="complete">{kpiLockSession}</span>
+            {sessionsComplete < kpiLockSession ? ` · ${kpiLockSession - sessionsComplete} to go` : " · locked"}
+          </span>
+        </div>
+      </div>
     </div>
   );
 }
